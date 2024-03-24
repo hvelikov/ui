@@ -12,11 +12,14 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkiverse.primefaces:quarkus-primefaces:3.13.10'
     implementation 'io.quarkiverse.omnifaces:quarkus-omnifaces:4.3.0'
-    implementation 'com.github.adminfaces:admin-template:1.6.1', {
-        exclude group: 'org.omnifaces', module: 'omnifaces'
-        exclude group: 'org.primefaces', module: 'primefaces'
-    }
+    implementation 'io.quarkiverse.primefaces:quarkus-primefaces-extensions:3.13.10'
 
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    testCompileOnly 'org.projectlombok:lombok:1.18.28'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+    implementation 'io.quarkus:quarkus-cache'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
 }

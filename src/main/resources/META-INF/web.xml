@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app
-    xmlns="https://jakarta.ee/xml/ns/jakartaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-    version="6.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+        version="6.0"
 >
-
     <session-config>
         <cookie-config>
             <http-only>true</http-only>
@@ -16,6 +15,11 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>saga</param-value>
+    </context-param>
 
     <context-param>
         <param-name>jakarta.faces.STATE_SAVING_METHOD</param-name>
@@ -33,7 +37,14 @@
         <param-name>jakarta.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
         <param-value>true</param-value>
     </context-param>
-
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6Lf2XQkTAAAAAHsc1-7Mt_kMlmcmGqlxoMDJlp2K</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6Lf2XQkTAAAAANcvOwYqPxWL4iZDksFqHpS39GDA</param-value>
+    </context-param>
     <context-param>
         <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
         <param-value>true</param-value>
@@ -44,9 +55,12 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>admin</param-value>
+        <param-value>#{app.theme}</param-value>
     </context-param>
-
+    <context-param>
+        <param-name>primefaces.DIR</param-name>
+        <param-value>#{app.locale.rtl ? 'rtl' : 'ltr'}</param-value>
+    </context-param>
     <context-param>
         <param-name>primefaces.MOVE_SCRIPTS_TO_BOTTOM</param-name>
         <param-value>true</param-value>
@@ -75,6 +89,13 @@
         <param-name>primefaces.js.COMBINED_RESOURCE_HANDLER_DISABLED</param-name>
         <param-value>true</param-value>
     </context-param>
+    <!--
+    <context-param>
+        <param-name>primefaces.FLEX</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    -->
+
 
     <!-- Context parameters - MyFaces -->
     <context-param>
@@ -91,7 +112,7 @@
     </context-param>
     <context-param>
         <param-name>org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
-        <param-value>10</param-value>
+        <param-value>15</param-value>
     </context-param>
     <context-param>
         <param-name>org.apache.myfaces.NUMBER_OF_SEQUENTIAL_VIEWS_IN_SESSION</param-name>
@@ -119,11 +140,17 @@
         <param-name>org.omnifaces.COMBINED_RESOURCE_HANDLER_DISABLED</param-name>
         <param-value>#{facesContext.application.projectStage eq 'Development'}</param-value>
     </context-param>
+    <context-param>
+        <param-name>org.omnifaces.CDN_RESOURCE_HANDLER_URLS</param-name>
+        <param-value>
+            cdn:hammer.js=https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js,
+            cdn:chartjs-plugin-zoom.js=https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js
+        </param-value>
+    </context-param>
 
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
     </listener>
-
 
     <!-- UTF-8 Encoding filter over the default ISO-8859-1. -->
     <filter>
@@ -145,24 +172,7 @@
         <servlet-name>FacesServlet</servlet-name>
     </filter-mapping>
 
-    <filter>
-        <filter-name>gzipResponseFilter</filter-name>
-        <filter-class>org.omnifaces.filter.GzipResponseFilter</filter-class>
-        <init-param>
-            <description>The threshold size in bytes. Must be a number between 0 and 9999. Defaults to 150.
-            </description>
-            <param-name>threshold</param-name>
-            <param-value>200</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>gzipResponseFilter</filter-name>
-        <servlet-name>Faces Servlet</servlet-name>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
-
-   <!-- <error-page>
+    <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.xhtml</location>
     </error-page>
@@ -173,7 +183,7 @@
     <error-page>
         <error-code>404</error-code>
         <location>/error.xhtml</location>
-    </error-page>-->
+    </error-page>
 
     <servlet>
         <servlet-name>FacesServlet</servlet-name>
