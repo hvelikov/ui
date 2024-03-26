@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package bg.comsoft.app.services;
+package bg.comsoft.app.view.app;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;

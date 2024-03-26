@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:xsi="http://java.sun.com/jsf/facelets"
+                xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
+                version="3.0"
+                template="/template/template.xhtml">
+
+    <ui:define name="title">PanelGrid</ui:define>
+    <ui:define name="description">
+        Additional features such as theming and colspan-rowspan.
+    </ui:define>
+
+
+    <ui:define name="content">
+            <p:panelGrid>
+                <p:row>
+                    <p:column colspan="4">AAA</p:column>
+                    <p:column colspan="4">BBB</p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">CCC</p:column>
+                    <p:column colspan="2">DDD</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>EEE</p:column>
+                    <p:column>FFF</p:column>
+                    <p:column>GGG</p:column>
+                    <p:column>HHH</p:column>
+                </p:row>
+            </p:panelGrid>
+
+
+        <div class="ui-g">
+            <div class="ui-g-8 ui-g-nopad">
+                <div class="ui-g-6">6</div>
+                <div class="ui-g-6">6</div>
+                <div class="ui-g-12">12</div>
+            </div>
+            <div class="ui-g-4">4</div>
+        </div>
+
+
+        <div class="ui-g">
+            <div class="ui-g-4">Col1</div>
+            <div class="ui-g-4">Col2</div>
+            <div class="ui-g-4">Col3</div>
+        </div>
+
+        <div class="ui-g">
+            <div class="ui-g-6">Col1</div>
+            <div class="ui-g-6">Col2</div>
+        </div>
+
+        <div class="ui-g">
+            <div class="ui-g-6">Col3</div>
+            <div class="ui-g-6">Col4</div>
+        </div>
+
+
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+        </div>
+
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-4">ui-g-12 ui-md-6 ui-lg-4</div>
+            <div class="ui-g-12 ui-md-6 ui-lg-4">ui-g-12 ui-md-6 ui-lg-4</div>
+            <div class="ui-g-12 ui-lg-4">ui-g-12 ui-lg-4</div>
+        </div>
+    </ui:define>
+
+</ui:composition>

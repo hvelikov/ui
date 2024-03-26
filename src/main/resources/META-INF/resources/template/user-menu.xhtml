@@ -4,14 +4,23 @@
                 xmlns:f="jakarta.faces.core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:xsi="http://java.sun.com/jsf/facelets"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions"
                 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd" version="3.0">
 
             <h:form>
                 <p:growl id="messages" />
+
                 <p:menubar style="background-color: azure; padding: 0;">
+                    <p:menuitem value="Home" icon="pi pi-fw pi-home" url="/index.xhtml"/>
+
+                    <p:submenu label="App" icon="pi pi-fw pi-box">
+                        <p:menuitem value="basic ajax"  icon="pi pi-fw" url="/ui/ajax/basic.xhtml"/>
+                        <p:menuitem value="panel grid"  icon="pi pi-fw" url="/ui/ajax/panelGrid.xhtml"/>
+                    </p:submenu>
+
                     <p:submenu label="File" icon="pi pi-fw pi-file">
                         <p:submenu label="New" icon="pi pi-fw">
-                            <p:menuitem value="Bookmark"  icon="pi pi-fw pi-bookmark" url="/ui/ajax/basic.xhtml"/>
                             <p:menuitem value="Video" icon="pi pi-fw pi-video"/>
                         </p:submenu>
                         <p:menuitem value="Delete" icon="pi pi-fw pi-trash"/>
@@ -47,9 +56,9 @@
                         </p:submenu>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                        <p:divider layout="vertical"/>
 
-                    <p:menuitem value="Quit" icon="pi pi-fw pi-power-off"/>
+                    <p:menuitem value="Logoff" icon="pi pi-fw pi-power-off"/>
 
                     <f:facet name="options">
                         <!--<div class="ui-input-icon-left mr-2">
