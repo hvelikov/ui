@@ -38,6 +38,7 @@
     <lifecycle>
         <phase-listener>org.primefaces.component.lifecycle.LifecyclePhaseListener</phase-listener>
         <phase-listener>org.primefaces.extensions.application.PrimeFacesResourceProcessor</phase-listener>
+     <!--   <phase-listener>bg.comsoft.app.domain.RequestLoggingPhaseListener</phase-listener>-->
         <phase-listener>bg.comsoft.app.util.MultiPageMessagesSupport</phase-listener>
     </lifecycle>
 
