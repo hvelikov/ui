@@ -23,58 +23,46 @@
  */
 package bg.comsoft.app.convert;
 
-import bg.comsoft.app.domain.Order;
+import bg.comsoft.app.domain.Country;
+import bg.comsoft.app.services.CountryService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.ConverterException;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.model.timeline.TimelineEvent;
 
-import java.io.Serializable;
-import java.util.List;
 
 @Named
 @ApplicationScoped
-@FacesConverter("org.primefaces.showcase.converter.OrderConverter")
-public class OrderConverter implements Converter<TimelineEvent<Order>>, Serializable {
+@FacesConverter(value = "localeConverter", managed = true)
+public class LocaleConverter implements Converter<Country> {
 
-	private static final long serialVersionUID = 1L;
-	private List<TimelineEvent<Order>> events;
+    @Inject
+    CountryService countryService;
 
-    public OrderConverter() {
-    }
-
-    @Override
-    public TimelineEvent<Order> getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null || value.isEmpty() || events == null || events.isEmpty()) {
-            return null;
-        }
-
-        for (TimelineEvent<Order> event : events) {
-            if (event.getData().getNumber() == Integer.valueOf(value)) {
-                return event;
+	@Override
+	public Country getAsObject(FacesContext context, UIComponent component, String value) {
+		if (value != null && value.trim().length() > 0) {
+            try {
+                return countryService.getLocalesAsMap().get(Integer.parseInt(value));
+            } catch (NumberFormatException e) {
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid locale."));
             }
-        }
-
-        return null;
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, TimelineEvent<Order> value) {
-        if (value == null) {
+        } else {
             return null;
         }
+	}
 
-        return String.valueOf(value.getData().getNumber());
-    }
-
-    public List<TimelineEvent<Order>> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<TimelineEvent<Order>> events) {
-        this.events = events;
-    }
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, Country value) {
+		if (value != null) {
+            return String.valueOf(value.getId());
+        } else {
+            return null;
+        }
+	}
 }

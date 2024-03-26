@@ -1,32 +1,36 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets" xmlns:p="http://primefaces.org/ui">
 
-    <div class="layout-topbar">
-        <a class="menu-button" tabindex="0">
-            <i class="pi pi-bars"></i>
-        </a>
-        <h:link styleClass="logo" outcome="/index.xhtml">
-            <p:graphicImage name="images/primefaces-logo.svg" library="showcase" />
-        </h:link>
-       <!-- <p:outputPanel id="app-theme-logo" class="app-theme">
-            <p:graphicImage id="app-theme-image" name="images/themes/#{app.themeImage}" library="showcase" />
-            <p:tooltip for="app-theme-logo" value="#{app.theme}" position="bottom" showDelay="0" />
-        </p:outputPanel>-->
-
-<!--
-        <h:form styleClass="topbar-form">
-            <ul class="topbar-menu">
-                <li class="topbar-submenu">
-                    <a tabindex="0">Themes</a>
-                    <ul class="connected-overlay-in">
-                        <li class="topbar-submenu-header">PRIMEONE</li>
-                        <li><p:commandLink actionListener="#{app.changeTheme('saga', false)}" oncomplete="window.location.reload();" update=":app-theme-logo"><h:graphicImage name="showcase/images/themes/saga.png" alt="Saga"/><span>Saga</span></p:commandLink></li>
-                    </ul>
-                </li>
-            </ul>
-        </h:form>
--->
-
-      <!--  <p:lifecycle />-->
+    <div class="layout-content">
+        <div class="layout-topbar" style="background-color: white">
+            <h:link styleClass="logo" outcome="/index.xhtml">
+                <p:graphicImage name="images/cs.png" library="showcase"/>
+            </h:link>
+            <div class="topbar-form">
+                <h2>Application system</h2>
+            </div>
+            <h:form styleClass="topbar-form">
+                <ul class="topbar-menu">
+                    <p:selectOneMenu id="locale" value="#{app.locale}" converter="#{localeConverter}"
+                                     style="width:300px" panelStyle="width:300px;height:350px;" height="350px"
+                                     effect="fade" var="l" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="#{countryService.locales}" var="locale"
+                                       itemLabel="#{locale.displayLanguage}" itemValue="#{locale}"/>
+                        <p:ajax oncomplete="window.location.reload();"/>
+                        <p:column style="width:10%">
+                            <span class="flag flag-#{l.code}" style="width: 30px; height: 20px"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Language"/>
+                            </f:facet>
+                            <h:outputText value="#{l.displayLanguage}"/>
+                        </p:column>
+                    </p:selectOneMenu>
+                </ul>
+            </h:form>
+        </div>
     </div>
+
+
 </ui:composition>

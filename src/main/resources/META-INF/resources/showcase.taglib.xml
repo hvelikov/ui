@@ -17,7 +17,7 @@
         <source>tags/tabscode.xhtml</source>
     </tag>
 
-    <tag>
+    <!--<tag>
         <tag-name>convertOrder</tag-name>
         <converter>
             <converter-id>bg.comsoft.app.converter.OrderConverter</converter-id>
@@ -27,5 +27,5 @@
             <required>true</required>
             <type>java.util.List</type>
         </attribute>
-    </tag>
+    </tag>-->
 </facelet-taglib>
