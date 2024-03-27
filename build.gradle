@@ -10,6 +10,15 @@ repositories {
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-jdbc-oracle'
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
     implementation 'io.quarkiverse.primefaces:quarkus-primefaces:3.13.10'
     implementation 'io.quarkiverse.omnifaces:quarkus-omnifaces:4.3.0'
     implementation 'io.quarkiverse.primefaces:quarkus-primefaces-extensions:3.13.10'
