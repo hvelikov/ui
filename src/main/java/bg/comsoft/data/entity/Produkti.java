@@ -19,7 +19,7 @@ public class Produkti extends PanacheEntityBase {
     public Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "GSTOK_ID", nullable = false)
     public GrupiOtStoki gstok;

@@ -15,12 +15,15 @@ public class SerNum extends PanacheEntityBase {
     @Id
     @Column(name = "SEQ_NUM", nullable = false)
     private Long id;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "NALITEM_NID", nullable = false)
     public Nalitem nalitemNid;
+
+
+//    @Column(name = "NALITEM_NID", nullable = false)
+//    public Long nalitemNid;
 
     @Size(max = 40)
     @NotNull
