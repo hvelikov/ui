@@ -5,6 +5,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
@@ -16,14 +18,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
+//@AllArgsConstructor
+@Data
 @Entity
 //@NamedQueries({
 //        @NamedQuery(name = "Nalichnosti.maxCount", query = "select max(n.id) from Nalichnosti n"),
 //})
 @Table(name = "NALICHNOSTI")
-public class Nalichnosti extends PanacheEntityBase {
+public class Nalichnosti {
     @Id
     @Column(name = "ID", nullable = false)
     public Long id;
@@ -62,7 +64,7 @@ public class Nalichnosti extends PanacheEntityBase {
     @Column(name = "ISCHECK")
     public Boolean ischeck;
 
-    @JsonbTransient
+    //@JsonbTransient
     @OneToMany(mappedBy = "avail", fetch = FetchType.EAGER)
     public List<Nalitem> nalitems = new ArrayList<>();
 

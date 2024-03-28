@@ -1,8 +1,10 @@
 package bg.comsoft.test;
 
 import bg.comsoft.data.entity.*;
+import bg.comsoft.data.mapper.NalichnostiDto;
 import io.quarkus.logging.Log;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
@@ -69,6 +71,27 @@ public class FrmJpaTest {
         nalitem.prod.stdesc="--";
 
 
+
+        Log.infof("\n Delivery id: %s, dateIn: %s, karta: %s \n Firma Id: %s, fname: %s", delivery.id, delivery.dateIn, delivery.karta, delivery.firmaFid.id,  delivery.firmaFid.fname);
+    }
+
+    @Inject
+    NalichnostiMapper nalichnostiMapper;
+    @Order(3)
+    //@Disabled
+    @Test
+    @Transactional
+    public void deliveryToDto() {
+
+        Log.infof("\n ********* Deliveries %s, Firms %s  *************", Nalichnosti.count(), Firmi.count());
+        // get last inventory record
+
+        Nalichnosti delivery = getLastNalichnosti();
+
+        NalichnostiDto nalichnostiDto = nalichnostiMapper.toDto(delivery);
+        //nalichnostiDto.firmaFid.fvatDsName="****";
+        nalichnostiDto.setStatus("****");
+        Nalichnosti delivery1 = nalichnostiMapper.partialUpdate(nalichnostiDto, delivery);
 
         Log.infof("\n Delivery id: %s, dateIn: %s, karta: %s \n Firma Id: %s, fname: %s", delivery.id, delivery.dateIn, delivery.karta, delivery.firmaFid.id,  delivery.firmaFid.fname);
     }

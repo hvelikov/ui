@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Firmi extends PanacheEntityBase {
     @Id
     @Column(name = "FID", nullable = false)
-    public Short id;
+    public Long id;
 
     @Size(max = 55)
     @NotNull

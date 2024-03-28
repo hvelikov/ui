@@ -16,7 +16,7 @@ import lombok.Setter;
 public class GrupiOtStoki {
     @Id
     @Column(name = "ID", nullable = false)
-    private Short id;
+    private Long id;
 
     @Size(max = 80)
     @NotNull
