@@ -1,11 +1,10 @@
 package bg.comsoft.app.util;
 
+import io.quarkus.logging.Log;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.lang3.SystemUtils;
 
 @RegisterForReflection
-@JBossLog
 public final class VirtualMachine {
 
     /**
@@ -105,7 +104,7 @@ public final class VirtualMachine {
                     byteCountToDisplaySize(availableMemory) +
                     " Max: " +
                     byteCountToDisplaySize(maxMemory);
-         log.info(output);
+         Log.info(output);
 
         return output;
     }
