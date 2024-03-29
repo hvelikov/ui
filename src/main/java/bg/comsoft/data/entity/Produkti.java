@@ -4,58 +4,62 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 
+
 @Entity
+@FieldDefaults(level = AccessLevel.PUBLIC)
 @Table(name = "PRODUKTI")
 public class Produkti extends PanacheEntityBase {
     @Id
     @Column(name = "ID", nullable = false)
-    public Long id;
+    Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "GSTOK_ID", nullable = false)
-    public GrupiOtStoki gstok;
+     GrupiOtStoki gstok;
 
     @Size(max = 40)
     @Column(name = "PART_NUMBER", length = 40)
-    public String partNumber;
+     String partNumber;
 
     @Size(max = 255)
     @Column(name = "STSHORT")
-    public String stshort;
+     String stshort;
 
     @Size(max = 1024)
     @Column(name = "STDESC", length = 1024)
-    public String stdesc;
+     String stdesc;
 
     @Column(name = "PRICE_BAY", precision = 10, scale = 2)
-    public BigDecimal priceBay;
+     BigDecimal priceBay;
 
     @Column(name = "MARKUP", precision = 10, scale = 2)
-    public BigDecimal markup;
+     BigDecimal markup;
 
     @Column(name = "PRICE_SALE", precision = 10, scale = 2)
-    public BigDecimal priceSale;
+     BigDecimal priceSale;
 
     @Size(max = 8)
     @Column(name = "CRN", length = 8)
-    public String crn;
+     String crn;
 
     @Column(name = "INSELLST")
-    public Boolean insellst;
+     Boolean insellst;
 
     @Column(name = "INWWW")
-    public Long inwww;
+     Long inwww;
 
     @Column(name = "WORM")
-    public Short worm;
+    Long worm;
 
 }
