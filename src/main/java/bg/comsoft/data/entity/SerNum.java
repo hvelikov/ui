@@ -12,6 +12,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @FieldDefaults(level = AccessLevel.PUBLIC)
+@Getter
+@Setter
 @Entity
 @Table(name = "SER_NUMS")
 public class SerNum extends PanacheEntityBase {

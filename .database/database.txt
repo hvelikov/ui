@@ -1,0 +1,24 @@
+-- USER SQL
+CREATE USER "frm" IDENTIFIED BY "STR12"  
+DEFAULT TABLESPACE "USERS"
+TEMPORARY TABLESPACE "TEMP";
+
+-- QUOTAS
+ALTER USER "frm" QUOTA UNLIMITED ON "USERS";
+
+-- ROLES
+GRANT "CONNECT" TO "frm" WITH ADMIN OPTION;
+GRANT "RESOURCE" TO "frm" WITH ADMIN OPTION;
+ALTER USER "frm" DEFAULT ROLE "CONNECT","RESOURCE";
+
+-- SYSTEM PRIVILEGES
+
+
+expdp system/ias_j2ee SCHEMAS=frm dumpfile=frm_27032024.dmp logfile=exp_frm_27032024.log COMPRESSION=all
+
+
+/Users/borko/IdeaProjects/jsf/ui/.database
+/opt/oracle/admin/ORCLCDB/dpdump/13D944DF4E721625E0630232000A924A
+
+impdp system/ias_j2ee@//localhost:1521/idb2 directory=DATA_PUMP_DIR dumpfile=frm_27032024.dmp logfile=frm_27032024.log EXCLUDE=STATISTICS
+
