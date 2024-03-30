@@ -20,6 +20,9 @@ import java.util.Set;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PUBLIC)
+@Getter
+@Setter
+
 @Table(name = "NALITEMS")
 public class Nalitem extends PanacheEntityBase {
     @Id
