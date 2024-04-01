@@ -50,6 +50,11 @@
         <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
         <param-value>true</param-value>
     </context-param>
+   <!-- <env-entry>
+        <env-entry-name>faces/ClientSideSecretKey</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>[AES key in Base64 format]</env-entry-value>
+    </env-entry>-->
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
