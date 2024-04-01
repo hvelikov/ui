@@ -45,7 +45,7 @@ test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
 compileJava {
-    options.encoding = 'UTF-8'
+    options.encoding = 'windows-1251'
     options.compilerArgs << '-parameters'
 }
 
@@ -55,5 +55,5 @@ tasks.withType(JavaCompile) {
 }
 
 compileTestJava {
-    options.encoding = 'UTF-8'
+    options.encoding = 'windows-1251'
 }

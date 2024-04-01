@@ -19,12 +19,19 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
+// https://quarkus.io/guides/hibernate-orm-panache
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PUBLIC)
 
 @Entity
+
+@NamedQueries({
+        @NamedQuery(name = "Nalichnosti.getByFirm", query = "from Nalichnosti, Firmi where firmaFid.id = ?1"),
+        @NamedQuery(name = "Nalichnosti.count", query = "select count(*) from Nalichnosti n where n.id = ?1"),
+        @NamedQuery(name = "Nalichnosti.getFirmiLikeName", query = "select f from Firmi f where upper(f.fname) like '%'||?1||'%' order by f.fname asc")
+     })
+
 @Table(name = "NALICHNOSTI")
 public class Nalichnosti extends PanacheEntityBase {
     @Id
