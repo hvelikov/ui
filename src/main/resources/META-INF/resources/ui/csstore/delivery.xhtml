@@ -10,43 +10,54 @@
                 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd" version="3.0"
                 template="/template/template.xhtml">
 
-    <ui:define name="title">
-       Store
-    </ui:define>
-
-    <ui:define name="implementation">
+       <ui:define name="implementation">
         <div class="card">
             <h:form>
-                <p:dataTable var="customer" value="#{dtPaginatorView.model}" rows="10"
-                             paginator="true" paginatorPosition="both"
+                <p:dataTable id="firmiList" var="firmiList" value="#{dtPaginatorView.model}" rows="20" sortMode="multiple"
+                             paginator="true" paginatorPosition="bottom" multiViewState="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                              rowsPerPageTemplate="5,10,{ShowAll|'All'}">
-
-                    <p:column headerText="Name" sortBy="id">
-                        <h:outputText value="#{customer.id}" />
+                  <f:facet name="header">
+                        <div class="flex justify-content-between align-items-center">
+                            List of Products
+                            <div>
+                                <p:commandButton id="toggler" type="button" value="Columns"/>
+                                <p:columnToggler datasource="firmiList" trigger="toggler">
+<!--                                 <p:ajax />-->
+                                </p:columnToggler>
+                            </div>
+                        </div>
+                    </f:facet>
+                    <p:column>
+                        <p:commandButton value="Select" icon="pi pi-plus">
+                            <f:setPropertyActionListener value="#{firmiList}" target="#{dtPaginatorView.selectedFirmi}" />
+                        </p:commandButton>
                     </p:column>
-                    <p:column headerText="Name">
-                        <h:outputText value="#{customer.fname}" />
+                    <p:column headerText="Id" sortBy="#{firmiList.id}">
+                        <h:outputText value="#{firmiList.id}" />
+                    </p:column>
+                    <p:column headerText="Name" sortBy="#{firmiList.fname}">
+                        <h:outputText value="#{firmiList.fname}" />
                     </p:column>
 
-                    <p:column headerText="Representative">
-                        <h:outputText value="#{customer.fvat}" />
+                    <p:column headerText="Vat num">
+                        <h:outputText value="#{firmiList.fvat}" />
                     </p:column>-->
 
-                    <p:column headerText="Country">
-                        <h:outputText value="#{customer.fcity}" />
+                    <p:column headerText="City" sortBy="#{firmiList.fcity}">
+                        <h:outputText value="#{firmiList.fcity}" />
                     </p:column>
 
-                    <p:column headerText="Country">
-                        <h:outputText value="#{customer.fstreet}" />
+                    <p:column headerText="Street">
+                        <h:outputText value="#{firmiList.fstreet}" />
                     </p:column>
 
-                    <p:column headerText="Company">
-                        <h:outputText value="#{customer.fcperson}" />
+                    <p:column headerText="Perso">
+                        <h:outputText value="#{firmiList.fcperson}" />
                     </p:column>
 
-                    <f:facet name="paginatorTopLeft">
+                    <f:facet name="paginatorBottomLeft">
                         <p:commandButton type="button" icon="pi pi-refresh"/>
                     </f:facet>
 
