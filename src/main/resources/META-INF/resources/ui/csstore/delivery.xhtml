@@ -6,43 +6,44 @@
                 xmlns:xsi="http://java.sun.com/jsf/facelets"
                 xmlns:o="http://omnifaces.org/ui"
                 xmlns:of="http://omnifaces.org/functions"
-                    xmlns:sc="http://primefaces.org/ui/showcase"
+                xmlns:sc="http://primefaces.org/ui/showcase"
                 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd" version="3.0"
                 template="/template/template.xhtml">
 
     <ui:define name="title">
-        Store input
+       Store
     </ui:define>
-
-    <ui:define name="description">
-        Enhanced user experience with the powerful and easy to use Ajax Framework.
-        <h:form>
-            <h:commandButton value="Add/update a session cookie with a random value" action="#{cdiCookieBean.add}" />
-        </h:form>
 
     <ui:define name="implementation">
         <div class="card">
             <h:form>
-                <p:dataTable var="customer" value="#{dtPaginatorView.customers}" rows="10"
+                <p:dataTable var="customer" value="#{dtPaginatorView.model}" rows="10"
                              paginator="true" paginatorPosition="both"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                              rowsPerPageTemplate="5,10,{ShowAll|'All'}">
 
+                    <p:column headerText="Name" sortBy="id">
+                        <h:outputText value="#{customer.id}" />
+                    </p:column>
                     <p:column headerText="Name">
-                        <h:outputText value="#{customer.name}" />
-                    </p:column>
-
-                    <p:column headerText="Country">
-                        <h:outputText value="#{customer.country.name}" />
-                    </p:column>
-
-                    <p:column headerText="Company">
-                        <h:outputText value="#{customer.company}" />
+                        <h:outputText value="#{customer.fname}" />
                     </p:column>
 
                     <p:column headerText="Representative">
-                        <h:outputText value="#{customer.representative.name}" />
+                        <h:outputText value="#{customer.fvat}" />
+                    </p:column>-->
+
+                    <p:column headerText="Country">
+                        <h:outputText value="#{customer.fcity}" />
+                    </p:column>
+
+                    <p:column headerText="Country">
+                        <h:outputText value="#{customer.fstreet}" />
+                    </p:column>
+
+                    <p:column headerText="Company">
+                        <h:outputText value="#{customer.fcperson}" />
                     </p:column>
 
                     <f:facet name="paginatorTopLeft">
