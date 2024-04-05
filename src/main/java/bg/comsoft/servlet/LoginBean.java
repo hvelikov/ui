@@ -1,17 +1,14 @@
 package bg.comsoft.servlet;
 
-import io.quarkus.logging.Log;
-import io.quarkus.security.credential.Credential;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.resource.spi.work.SecurityContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
 
 
@@ -19,9 +16,6 @@ import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
 @Named
 @RequestScoped
 public class LoginBean {
-
-    @Inject
-    private SecurityContext securityContext;
 
     @NotNull
     @Size(min = 3, max = 15, message = "Username must be between 3 and 15 characters")
