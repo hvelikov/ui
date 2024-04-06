@@ -20,7 +20,7 @@
 <!--        <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
         <h:form>
             <div class="flex justify-content-between">
-                <p:dataTable id="${id}" var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
+                <p:dataTable  var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
                              paginator="true" paginatorPosition="bottom" lazy="true" pageLinks="5"
                              paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records. Page {currentPage}/{totalPages}"
