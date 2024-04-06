@@ -8,8 +8,13 @@ import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
+import lombok.Setter;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -28,10 +33,10 @@ import static java.lang.Math.toIntExact;
 @ApplicationScoped
 public class Delivery implements Serializable {
 
-    @Getter LazyDataModel model;
+    @Getter  LazyDataModel model;
     @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
-    @Getter List<Firmi> datasource = Firmi.listAll();
-    @Getter Firmi selectedFirmi;
+    //@Getter List<Firmi> datasource = Firmi.listAll();
+    @Getter @Setter Firmi selectedFirmi;
 
 
     // https://github.com/apache/myfaces/blob/2.3-next/extensions/quarkus/showcase/src/main/java/org/apache/myfaces/core/extensions/quarkus/showcase/view/LazyCarDataModel.java
@@ -70,6 +75,7 @@ public class Delivery implements Serializable {
                     PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, sort);
                     return page.page(Page.of(first / pageSize, pageSize)).list();
                 }
+                List<Firmi> datasource ;
 
                 //@Override
                 public Firmi getRowData(String rowKey) {
@@ -111,23 +117,13 @@ public class Delivery implements Serializable {
         return page;
     }
 
-    public void setModel(LazyDataModel model) {
+   /* public void setModel(LazyDataModel model) {
         this.model = model;
-    }
-/*
-    @Override
-    public void afterPhase(PhaseEvent event) {
-        System.err.println((System.currentTimeMillis() - start) + "ms");
-    }
-    private long start;
-    @Override
-    public void beforePhase(PhaseEvent event) {
-        start = System.currentTimeMillis();
-    }
-
-    @Override
-    public PhaseId getPhaseId() {
-        return PhaseId.RENDER_RESPONSE;
     }*/
+
+    public void onRowSelect(SelectEvent<Firmi> event) {
+        FacesMessage msg = new FacesMessage("Customer Selected", String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }
 // https://www.javadoc.io/doc/org.primefaces/primefaces/12.0.0/org/primefaces/model/LazyDataModel.html#load(int,int,java.util.Map,java.util.Map)

@@ -14,7 +14,7 @@
      <ui:define name="title">
         Store
      </ui:define>
-    <c:set var="id" value="tab01" />
+    <c:set var="id" value="delivery" />
 
     <ui:define name="implementation">
 <!--        <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
@@ -30,23 +30,26 @@
                              resizableColumns="true"
                              draggableColumns="true"
             >
+                    <!--selectionMode="single"
+                             selection="#{delivery.selectedFirmi}"-->
+
                     <!--onRowClick="#{delivery.selectedFirmi}" rowKey="#{delivery.model.getRowKey()}  -->
-                   <!-- <f:facet name="header">
-                        List of firmi
-                        <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
-                       <p:columnToggler datasource="${id}" trigger="toggler" >
-                          <p:ajax />
-                       </p:columnToggler>
-                    </f:facet>
-                     <p:column  sortBy="#{customer.id}" filterBy="#{customer.id}">
-                          <f:facet name="header">
-                              <h:outputText value="Id"/>
-                          </f:facet>
-                          <h:outputText value="#{customer.id}" />
-                     </p:column>
-                    <p:column>
-                        <p:rowToggler />
-                    </p:column>-->
+                    <!-- <f:facet name="header">
+                         List of firmi
+                         <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+                        <p:columnToggler datasource="${id}" trigger="toggler" >
+                           <p:ajax />
+                        </p:columnToggler>
+                     </f:facet>
+                      <p:column  sortBy="#{customer.id}" filterBy="#{customer.id}">
+                           <f:facet name="header">
+                               <h:outputText value="Id"/>
+                           </f:facet>
+                           <h:outputText value="#{customer.id}" />
+                      </p:column>
+                     <p:column>
+                         <p:rowToggler />
+                     </p:column>-->
 
                     <p:column headerText="Id" sortBy="#{customer.id}" filterBy="#{customer.id}" toggleable="false">
                         <h:outputText value="#{customer.id}"/>
@@ -75,8 +78,27 @@
 
                     <f:facet name="paginatorBottomRight">
                         <p:commandButton type="button" icon="pi pi-cloud-upload"/>
-                    </f:facet>
+                    </f:facet>-->
                 </p:dataTable>
+                <!--<p:dialog header="Firma Detail" widgetVar="customerDialog" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <p:outputPanel id="firmaDetail" style="text-align:center;">
+                        <p:panelGrid columns="2" rendered="#{not empty delivery.selectedFirmi}"
+                                     columnClasses="label,value">
+                            <h:outputText value="Name:"/>
+                            <h:outputText value="#{delivery.selectedFirmi.fname}"/>
+
+                           &lt;!&ndash; <h:outputText value="Country"/>
+                            <p:column>
+                                <h:outputText style="vertical-align: middle; margin-left: .5rem"
+                                              value="#{delivery.selectedFirmi.fcity}"/>
+                            </p:column>
+
+                            <h:outputText value="MOL:"/>
+                            <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>&ndash;&gt;
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>-->
             </div>
         </h:form>
     </ui:define>
