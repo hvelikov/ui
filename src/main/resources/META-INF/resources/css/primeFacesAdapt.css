@@ -1,0 +1,158 @@
+@CHARSET "ISO-8859-1";
+
+html body {
+	overflow : hidden;
+}
+body {
+	color:black;
+	font-family:Verdana,Arial,sans-serif; 
+	font-size:11px;
+	margin:0px; 
+	padding:0px;
+	border:0px; 
+}
+
+
+
+.ui-inputfield {
+	padding:1px;
+	box-shadow:none;
+}
+
+.ui-selectonemenu {
+	display: inline-block; 
+	vertical-align: bottom; 
+}
+
+.ui-selectonemenu label.ui-selectonemenu-label {
+	background-shadow:none;
+	padding:2px;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	background: none;
+	background-color:  #DEE9F5;
+	padding: 0 1px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon {
+	top: 5px
+}
+
+.ui-widget-overlay {
+	opacity: 0.3;
+}
+
+.ui-corner-all {
+	border-radius: 2px;
+}
+
+.ui-widget {
+	font-family: inherit !important;
+	font-size: 11px ;
+}
+
+.ui-widget-content {
+	font-size: 11px;
+	font-weight:inherit !important;
+}
+
+.ui-state-default {
+	font-weight:inherit !important;;
+}
+
+.ui-button {
+	font-size: 11px;
+}
+
+.ui-panel .ui-panel-titlebar {
+    padding: 0em 1em 0em;
+}
+.ui-panel {
+	padding: 0em;
+}
+
+.ui-panel .ui-panel-titlebar-icon, .ui-panel .ui-panel-titlebar-icon:hover {
+	margin-top: 0px;
+}
+
+.ui-dashboard .ui-panel{
+	margin: 5px;
+	width: 98%;
+}
+
+.ui-dashboard-column{
+	padding-bottom: 20px;
+}
+.ui-tabs .ui-tabs-nav li a {
+    padding: .3em .3em;
+}
+
+.ui-tabs {
+	padding: 0px;
+}
+.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+    padding: 0;
+}
+
+.ui-button-text-only .ui-button-text {
+padding: 0.1em 0.4em;
+white-space: nowrap
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+	padding-top: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+
+.ui-datatable-even tr, .ui-datatable-od tr {
+	height:17px;
+}
+.ui-datatable table{
+	/*width: unset;*/
+}
+
+.ui-datatable-resizable thead th, .ui-datatable-resizable tfoot td {
+	white-space: unset;
+}
+
+
+.ui-state-focus { border:1px solid  #0027ffb3;
+}
+
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: Verdana,Arial,sans-serif; ;
+	font-size: 11px;
+}
+
+
+.inlineBlock {
+	display: inline-block;
+}
+
+
+
+/* Reduce PF checkbox size in oder to prevent getting frozen column becoming too high*/
+
+.ui-chkbox .ui-chkbox-box , .ui-chkbox-icon.ui-icon {
+max-height: 12px;
+max-width:12px;
+}
+
+.reducedFontSize {
+	vertical-align:top;
+	/*transform: scale(0.5);*/
+}
+
+/*
+.ui-datatable-frozenlayout-left {
+	width: 5%
+}
+*/
+
+
+
+
+

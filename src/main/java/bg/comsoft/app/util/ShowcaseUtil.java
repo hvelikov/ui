@@ -44,6 +44,7 @@ public class ShowcaseUtil {
 
     public static List<FileContent> getFilesContent(String fullPath, Boolean readBeans) {
         CacheProvider provider = CDI.current().select(ShowcaseCacheProvider.class).get().getCacheProvider();
+        @SuppressWarnings("unchecked")
         List<FileContent> files = (List<FileContent>) provider.get("contents", fullPath);
 
         if (files == null) {

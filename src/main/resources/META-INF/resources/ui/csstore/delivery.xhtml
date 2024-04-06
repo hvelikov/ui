@@ -6,7 +6,7 @@
                 xmlns:xsi="http://java.sun.com/jsf/facelets"
                 xmlns:o="http://omnifaces.org/ui"
                 xmlns:of="http://omnifaces.org/functions"
-                xmlns:sc="http://primefaces.org/ui/showcase"
+                xmlns:sc="http://primefaces.org/ui/showcase" xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
                 version="3.0"
                 template="/template/template.xhtml">
@@ -14,32 +14,52 @@
      <ui:define name="title">
         Store
      </ui:define>
+    <c:set var="id" value="tab01" />
 
     <ui:define name="implementation">
+<!--        <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
         <h:form>
-                <p:dataTable var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
+            <div class="flex justify-content-between">
+                <p:dataTable id="${id}" var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
                              paginator="true" paginatorPosition="bottom" lazy="true" pageLinks="5"
                              paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records. Page {currentPage}/{totalPages}"
                              rowsPerPageTemplate="1,5,10,{ShowAll|'All'}"
-                             rowSelect="#{delivery.selectedFirmi}">
-                    <!--<f:facet name="header">
-                        List of Cars1
-                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="pi pi-align-justify" />
-                        <p:columnToggler datasource="#{firmi}" trigger="toggler" />
-                    </f:facet>-->
-                   <p:column headerText="Id" sortBy="#{customer.id}" filterBy="#{customer.id}">
-                         <h:outputText value="#{customer.id}"/>
+                             sortBy="#{delivery.sortMetaInitial}"
+
+                             resizableColumns="true"
+                             draggableColumns="true"
+            >
+                    <!--onRowClick="#{delivery.selectedFirmi}" rowKey="#{delivery.model.getRowKey()}  -->
+                   <!-- <f:facet name="header">
+                        List of firmi
+                        <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+                       <p:columnToggler datasource="${id}" trigger="toggler" >
+                          <p:ajax />
+                       </p:columnToggler>
+                    </f:facet>
+                     <p:column  sortBy="#{customer.id}" filterBy="#{customer.id}">
+                          <f:facet name="header">
+                              <h:outputText value="Id"/>
+                          </f:facet>
+                          <h:outputText value="#{customer.id}" />
+                     </p:column>
+                    <p:column>
+                        <p:rowToggler />
+                    </p:column>-->
+
+                    <p:column headerText="Id" sortBy="#{customer.id}" filterBy="#{customer.id}" toggleable="false">
+                        <h:outputText value="#{customer.id}"/>
                     </p:column>
-                    <p:column headerText="Name" filterBy="#{customer.fname}" sortBy="#{customer.fname}">
+                    <p:column headerText="Name" filterBy="#{customer.fname}" sortBy="#{customer.fname}" toggleable="false">
                         <h:outputText value="#{customer.fname}"/>
                     </p:column>
 
-                    <p:column headerText="City" sortBy="#{customer.fcity}" filterBy="#{customer.fcity}">
+                    <p:column headerText="City" sortBy="#{customer.fcity}" filterBy="#{customer.fcity}" toggleable="false">
                         <h:outputText value="#{customer.fcity}"/>
                     </p:column>
 
-                    <p:column headerText="Street" sortBy="#{customer.fstreet}">
+                    <p:column headerText="Street" sortBy="#{customer.fstreet}" toggleable="false">
                         <h:outputText value="#{customer.fstreet}"/>
                     </p:column>
                     <p:column headerText="Bulstat">
@@ -57,7 +77,7 @@
                         <p:commandButton type="button" icon="pi pi-cloud-upload"/>
                     </f:facet>
                 </p:dataTable>
-
+            </div>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -10,7 +10,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
-import lombok.Setter;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -24,50 +23,37 @@ import java.util.Map;
 
 import static java.lang.Math.toIntExact;
 
-@Getter
-@Setter
-
 @Named("delivery")
 //@SessionScoped
 @ApplicationScoped
 public class Delivery implements Serializable {
 
-//        @Inject
-//        FirmiMapper firmiMapper;
+    @Getter LazyDataModel model;
+    @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
+    @Getter List<Firmi> datasource = Firmi.listAll();
+    @Getter Firmi selectedFirmi;
 
-        LazyDataModel model;
-
-        public List<SortMeta> sortMetaInitial = new ArrayList<>();
-
-        List<Firmi> firmiList;
 
     // https://github.com/apache/myfaces/blob/2.3-next/extensions/quarkus/showcase/src/main/java/org/apache/myfaces/core/extensions/quarkus/showcase/view/LazyCarDataModel.java
 
     @PostConstruct
         public void init()  {
 
-            Log.info("Initialize list");
-            sortMetaInitial.add(
-                    SortMeta.builder()
-                    .field("id").order(SortOrder.DESCENDING)
-                    .build());
-
+            Log.info("Initialize LazyDataModel, sort and filter");
+            sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
             model = new LazyDataModel() {
-
-                private List<Firmi> datasource;
-
                 @Override
                 public int count(Map filterBy) {
-                   // int intExact = toIntExact(Firmi.count());
-                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filterBy, Sort.empty());
-                    int intExact = toIntExact(page.count());
-                    return intExact;
+                    @SuppressWarnings("unchecked")
+                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
+                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, Sort.empty());
+                    return toIntExact(page.count());
                 }
 
                 //@Override
                 public List<Firmi> load(int first, int pageSize, Map sortBy, Map filterBy) {
-
-                    Map<String, SortMeta> sortMetaMap = sortBy;
+                    @SuppressWarnings("unchecked")
+                    Map<String, SortMeta> sortMetaMap = (Map<String, SortMeta>)sortBy;
                     Sort sort = Sort.empty();
 
                     for (String sKey : sortMetaMap.keySet()) {
@@ -78,8 +64,8 @@ public class Delivery implements Serializable {
                            sort.and(sKey, Sort.Direction.Ascending);
                     }
                     //PanacheQuery<PanacheEntityBase> page = Firmi.findAll(sort).page(Page.of(first/pageSize,pageSize));
-
-                    Map<String, FilterMeta> filter = filterBy;
+                    @SuppressWarnings("unchecked")
+                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
 
                     PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, sort);
                     return page.page(Page.of(first / pageSize, pageSize)).list();
@@ -95,11 +81,15 @@ public class Delivery implements Serializable {
                     }
                     return null;
                 }
-                public String getRowKey(Firmi firma) {
-                    return Long.toString( firma.getId() );
+
+                @Override
+                public String getRowKey(Object object) {
+                    if (object instanceof Firmi)
+                        return Long.toString(((Firmi) object).getId());
+                    return super.getRowKey(object);
                 }
             };
-            firmiList = Firmi.listAll();
+            //firmiList = Firmi.listAll();
         }
 
     private static PanacheQuery<PanacheEntityBase> getSortAndFilter(Map<String, FilterMeta> filter, Sort sort ) {
@@ -121,6 +111,9 @@ public class Delivery implements Serializable {
         return page;
     }
 
+    public void setModel(LazyDataModel model) {
+        this.model = model;
+    }
 /*
     @Override
     public void afterPhase(PhaseEvent event) {
