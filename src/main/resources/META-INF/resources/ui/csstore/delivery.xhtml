@@ -11,14 +11,19 @@
                 version="3.0"
                 template="/template/template.xhtml">
 
-     <ui:define name="title">
+   <!-- <ui:define name="title">
         Store
      </ui:define>
-    <c:set var="id" value="delivery" />
+    <c:set var="id" value="delivery" />-->
+
+    <!--<h:outputStylesheet name="/css/primeFacesAdapt.css" target="head"/>-->
+
 
     <ui:define name="implementation">
-<!--        <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
-        <h:form>
+       <!-- <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
+        <p:growl id="messages" showDetail="true" />
+
+        <h:form id="form">
             <div class="flex justify-content-between">
                 <p:dataTable  var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
                              paginator="true" paginatorPosition="bottom" lazy="true" pageLinks="5"
@@ -26,10 +31,16 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records. Page {currentPage}/{totalPages}"
                              rowsPerPageTemplate="1,5,10,{ShowAll|'All'}"
                              sortBy="#{delivery.sortMetaInitial}"
+                             resizableColumns="true"  draggableColumns="true"
+                             selection="#{delivery.selectedFirmi}"
 
-                             resizableColumns="true"
-                             draggableColumns="true"
             >
+                    <p:ajax event="rowSelect" listener="#{delivery.onRowSelect}" update=":form:firmaDetail"
+                            oncomplete="PF('customerDialog').show()"/>
+                    <f:facet name="header">
+                        List of firmi
+                    </f:facet>
+
                     <!--selectionMode="single"
                              selection="#{delivery.selectedFirmi}"-->
 
@@ -80,25 +91,21 @@
                         <p:commandButton type="button" icon="pi pi-cloud-upload"/>
                     </f:facet>-->
                 </p:dataTable>
-                <!--<p:dialog header="Firma Detail" widgetVar="customerDialog" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false">
+                <p:dialog header="Firma Detail" widgetVar="customerDialog" modal="true" showEffect="fade"  hideEffect="fade" resizable="true">
                     <p:outputPanel id="firmaDetail" style="text-align:center;">
-                        <p:panelGrid columns="2" rendered="#{not empty delivery.selectedFirmi}"
-                                     columnClasses="label,value">
-                            <h:outputText value="Name:"/>
-                            <h:outputText value="#{delivery.selectedFirmi.fname}"/>
-
-                           &lt;!&ndash; <h:outputText value="Country"/>
-                            <p:column>
-                                <h:outputText style="vertical-align: middle; margin-left: .5rem"
-                                              value="#{delivery.selectedFirmi.fcity}"/>
+                        <p:panelGrid columns="4" rendered="#{not empty delivery.selectedFirmi}" columnClasses="label,value">
+                            <p:column headerText="Name">
+                                <h:outputText value="#{delivery.selectedFirmi.fname}"/>
                             </p:column>
-
-                            <h:outputText value="MOL:"/>
-                            <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>&ndash;&gt;
+                            <p:column headerText="City">
+                                <h:outputText value="#{delivery.selectedFirmi.fcity}"/>
+                            </p:column>
+                            <p:column headerText="MOL">
+                                 <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>
+                            </p:column>
                         </p:panelGrid>
                     </p:outputPanel>
-                </p:dialog>-->
+                </p:dialog>
             </div>
         </h:form>
     </ui:define>

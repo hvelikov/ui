@@ -11,14 +11,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
-import org.primefaces.model.SortOrder;
+import org.primefaces.model.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,13 +30,15 @@ import static java.lang.Math.toIntExact;
 @Named("delivery")
 //@SessionScoped
 @ApplicationScoped
-public class Delivery implements Serializable {
+public class Delivery  implements Serializable  {
 
-    @Getter  LazyDataModel model;
+    @Getter  JpaLazyDataModel    model;
     @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
     //@Getter List<Firmi> datasource = Firmi.listAll();
     @Getter @Setter Firmi selectedFirmi;
 
+    @Inject
+    EntityManager entityManager;
 
     // https://github.com/apache/myfaces/blob/2.3-next/extensions/quarkus/showcase/src/main/java/org/apache/myfaces/core/extensions/quarkus/showcase/view/LazyCarDataModel.java
 
@@ -45,7 +46,11 @@ public class Delivery implements Serializable {
         public void init()  {
 
             Log.info("Initialize LazyDataModel, sort and filter");
-            sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
+            //entityManager = Firmi.getEntityManager();
+            model =  new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
+
+            //sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
+/*
             model = new LazyDataModel() {
                 @Override
                 public int count(Map filterBy) {
@@ -77,15 +82,9 @@ public class Delivery implements Serializable {
                 }
                 List<Firmi> datasource ;
 
-                //@Override
+                @Override
                 public Firmi getRowData(String rowKey) {
-                    for (Firmi firma : datasource) {
-                        //:todo if not Long
-                        if ( Long.toString(firma.getId()).equals(rowKey)) {
-                            return firma;
-                        }
-                    }
-                    return null;
+                    return Firmi.findById(Long.valueOf(rowKey));
                 }
 
                 @Override
@@ -95,6 +94,7 @@ public class Delivery implements Serializable {
                     return super.getRowKey(object);
                 }
             };
+*/
             //firmiList = Firmi.listAll();
         }
 
