@@ -4,13 +4,11 @@ import bg.comsoft.data.entity.Firmi;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.logging.Log;
-import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -24,17 +22,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Math.toIntExact;
+import org.primefaces.model.JPALazyDataModel;
 
 @Named("delivery")
 //@SessionScoped
 @ApplicationScoped
 public class Delivery  implements Serializable  {
 
-    @Getter  JpaLazyDataModel    model;
+    @Getter  JPALazyDataModel    model;
     @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
-    //@Getter List<Firmi> datasource = Firmi.listAll();
     @Getter @Setter Firmi selectedFirmi;
 
     @Inject
@@ -45,9 +41,9 @@ public class Delivery  implements Serializable  {
     @PostConstruct
         public void init()  {
 
-            Log.info("Initialize LazyDataModel, sort and filter");
-            //entityManager = Firmi.getEntityManager();
-            model =  new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
+        Log.info("Initialize LazyDataModel, sort and filter");
+        JPALazyDataModel.Builder<Firmi> builder = JPALazyDataModel.builder();
+        model = builder.entityClass(Firmi.class).entityManager(() -> entityManager).build();
 
             //sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
 /*

@@ -24,9 +24,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'io.quarkiverse.primefaces:quarkus-primefaces:3.13.10'
+    implementation 'io.quarkiverse.primefaces:quarkus-primefaces-docs:3.14.0.1'
     implementation 'io.quarkiverse.omnifaces:quarkus-omnifaces:4.3.0'
-    implementation 'io.quarkiverse.primefaces:quarkus-primefaces-extensions:3.13.10'
+    implementation 'io.quarkiverse.primefaces:quarkus-primefaces-extensions-parent:3.14.2'
 
     implementation 'io.quarkus:quarkus-cache'
     implementation 'io.quarkus:quarkus-arc'
