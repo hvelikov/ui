@@ -1,10 +1,7 @@
 package bg.comsoft.app.view.app;
 
 import bg.comsoft.data.entity.Firmi;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.logging.Log;
-import io.quarkus.panache.common.Sort;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
@@ -14,24 +11,29 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.*;
+import org.primefaces.model.JPALazyDataModel;
+import org.primefaces.model.SortMeta;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.primefaces.model.JPALazyDataModel;
 
 @Named("delivery")
 //@SessionScoped
 @ApplicationScoped
-public class Delivery  implements Serializable  {
+public class Delivery implements Serializable {
 
-    @Getter  JPALazyDataModel    model;
-    @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
-    @Getter @Setter Firmi selectedFirmi;
+    @Getter
+    JPALazyDataModel<Firmi> model;
+    @Getter
+    List<SortMeta> sortMetaInitial = new ArrayList<>();  // sortBy
+    @Getter
+    @Setter
+    Firmi selectedFirmi;                         // selection
 
     @Inject
     EntityManager entityManager;
@@ -39,87 +41,53 @@ public class Delivery  implements Serializable  {
     // https://github.com/apache/myfaces/blob/2.3-next/extensions/quarkus/showcase/src/main/java/org/apache/myfaces/core/extensions/quarkus/showcase/view/LazyCarDataModel.java
 
     @PostConstruct
-        public void init()  {
-
+    public void init() {
         Log.info("Initialize LazyDataModel, sort and filter");
         JPALazyDataModel.Builder<Firmi> builder = JPALazyDataModel.builder();
-        model = builder.entityClass(Firmi.class).entityManager(() -> entityManager).build();
-
-            //sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
-/*
-            model = new LazyDataModel() {
-                @Override
-                public int count(Map filterBy) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
-                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, Sort.empty());
-                    return toIntExact(page.count());
-                }
-
-                //@Override
-                public List<Firmi> load(int first, int pageSize, Map sortBy, Map filterBy) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, SortMeta> sortMetaMap = (Map<String, SortMeta>)sortBy;
-                    Sort sort = Sort.empty();
-
-                    for (String sKey : sortMetaMap.keySet()) {
-                       SortMeta sMeta = (SortMeta)sortBy.get(sKey);
-                       if(sMeta.getOrder().name().equalsIgnoreCase("DESCENDING")) {
-                           sort.and(sKey, Sort.Direction.Descending);
-                       } else
-                           sort.and(sKey, Sort.Direction.Ascending);
-                    }
-                    //PanacheQuery<PanacheEntityBase> page = Firmi.findAll(sort).page(Page.of(first/pageSize,pageSize));
-                    @SuppressWarnings("unchecked")
-                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
-
-                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, sort);
-                    return page.page(Page.of(first / pageSize, pageSize)).list();
-                }
-                List<Firmi> datasource ;
-
-                @Override
-                public Firmi getRowData(String rowKey) {
-                    return Firmi.findById(Long.valueOf(rowKey));
-                }
-
-                @Override
-                public String getRowKey(Object object) {
-                    if (object instanceof Firmi)
-                        return Long.toString(((Firmi) object).getId());
-                    return super.getRowKey(object);
-                }
-            };
-*/
-            //firmiList = Firmi.listAll();
-        }
-
-    private static PanacheQuery<PanacheEntityBase> getSortAndFilter(Map<String, FilterMeta> filter, Sort sort ) {
-        String query ="";
-        Map<String, Object> params = new HashMap<>();
-        for (String sKey : filter.keySet()) {
-            FilterMeta fMeta = filter.get(sKey);
-            if( fMeta.getFilterValue().toString().length() > 3) {
-                query += query.length() < 1 ? "" : " and ";
-
-                if(sKey.equalsIgnoreCase("id")) {
-                    query += sKey + " = :" + sKey;
-                }  else query += "upper(" + sKey + ") like '%'||:" + sKey + "||'%'";
-
-                params.put(sKey, fMeta.getFilterValue().toString().toUpperCase() );
-            }
-        }
-        PanacheQuery<PanacheEntityBase> page  = Firmi.find(query, sort, params);
-        return page;
+        model = builder.caseSensitive(false)
+                .entityClass(Firmi.class).entityManager(() -> entityManager)
+                .build();
     }
-
-   /* public void setModel(LazyDataModel model) {
-        this.model = model;
-    }*/
 
     public void onRowSelect(SelectEvent<Firmi> event) {
         FacesMessage msg = new FacesMessage("Customer Selected", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        // Log.infof("Customer Selected - %s", String.valueOf(event.getObject().getId()));
     }
+
+    public void clearMultiViewState() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String viewId = context.getViewRoot().getViewId();
+        PrimeFaces.current().multiViewState().clearAll(viewId, true, this::showMessage);
+    }
+
+    public void onRowEdit(RowEditEvent<Firmi> event) {
+        FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent<Firmi> event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+
+    private void showMessage(String clientId) {
+        FacesContext.getCurrentInstance()
+                .addMessage(null,
+                        //new FacesMessage(FacesMessage.SEVERITY_INFO, clientId + " multiview state has been cleared out", null));
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "State has been cleared out", null));
+    }
+
 }
 // https://www.javadoc.io/doc/org.primefaces/primefaces/12.0.0/org/primefaces/model/LazyDataModel.html#load(int,int,java.util.Map,java.util.Map)

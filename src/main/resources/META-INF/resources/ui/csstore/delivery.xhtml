@@ -4,96 +4,90 @@
                 xmlns:f="jakarta.faces.core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:xsi="http://java.sun.com/jsf/facelets"
-                xmlns:o="http://omnifaces.org/ui"
-                xmlns:of="http://omnifaces.org/functions"
-                xmlns:sc="http://primefaces.org/ui/showcase" xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
                 version="3.0"
                 template="/template/template.xhtml">
 
-   <!-- <ui:define name="title">
-        Store
-     </ui:define>
-    <c:set var="id" value="delivery" />-->
+    <!-- <ui:define name="title">
+         Store
+      </ui:define>
+     <c:set var="id" value="delivery" />-->
 
     <!--<h:outputStylesheet name="/css/primeFacesAdapt.css" target="head"/>-->
 
-
     <ui:define name="implementation">
-       <!-- <h:outputStylesheet name="/css/primeFacesAdapt.css" target="head" />-->
-        <p:growl id="messages" showDetail="true" />
 
         <h:form id="form">
+            <p:growl id="messages" showDetail="false" life="2000"/>
             <div class="flex justify-content-between">
-                <p:dataTable  var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small" multiViewState="true"
+                <p:dataTable var="customer" value="#{delivery.model}" rows="10" showGridlines="true" size="small"
+                             multiViewState="true"
                              paginator="true" paginatorPosition="bottom" lazy="true" pageLinks="5"
                              paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records. Page {currentPage}/{totalPages}"
                              rowsPerPageTemplate="1,5,10,{ShowAll|'All'}"
                              sortBy="#{delivery.sortMetaInitial}"
-                             resizableColumns="true"  draggableColumns="true"
+                             resizableColumns="true" draggableColumns="true"
                              selection="#{delivery.selectedFirmi}"
+                >
+                    <p:ajax event="rowSelect" update=":form:firmaDetail" oncomplete="PF('customerDialog').show()" />
 
-            >
-                    <p:ajax event="rowSelect" listener="#{delivery.onRowSelect}" update=":form:firmaDetail"
-                            oncomplete="PF('customerDialog').show()"/>
+                   <!--
+                    <p:ajax event="rowEdit" listener="#{delivery.onRowEdit}" update=":form:messages"/>
+                    <p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}" update=":form:messages"/>-->
+
                     <f:facet name="header">
                         List of firmi
                     </f:facet>
 
-                    <!--selectionMode="single"
-                             selection="#{delivery.selectedFirmi}"-->
-
-                    <!--onRowClick="#{delivery.selectedFirmi}" rowKey="#{delivery.model.getRowKey()}  -->
-                    <!-- <f:facet name="header">
-                         List of firmi
-                         <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
-                        <p:columnToggler datasource="${id}" trigger="toggler" >
-                           <p:ajax />
-                        </p:columnToggler>
-                     </f:facet>
-                      <p:column  sortBy="#{customer.id}" filterBy="#{customer.id}">
-                           <f:facet name="header">
-                               <h:outputText value="Id"/>
-                           </f:facet>
-                           <h:outputText value="#{customer.id}" />
-                      </p:column>
-                     <p:column>
-                         <p:rowToggler />
-                     </p:column>-->
-
-                    <p:column headerText="Id" sortBy="#{customer.id}" filterBy="#{customer.id}" toggleable="false">
-                        <h:outputText value="#{customer.id}"/>
-                    </p:column>
-                    <p:column headerText="Name" filterBy="#{customer.fname}" sortBy="#{customer.fname}" toggleable="false">
+                    <p:column headerText="Name" filterBy="#{customer.fname}" sortBy="#{customer.fname}" toggleable="false" filterPlaceholder="fname">
                         <h:outputText value="#{customer.fname}"/>
                     </p:column>
 
-                    <p:column headerText="City" sortBy="#{customer.fcity}" filterBy="#{customer.fcity}" toggleable="false">
+                    <p:column headerText="City" sortBy="#{customer.fcity}" filterBy="#{customer.fcity}" toggleable="false" filterPlaceholder="City">
                         <h:outputText value="#{customer.fcity}"/>
                     </p:column>
 
-                    <p:column headerText="Street" sortBy="#{customer.fstreet}" toggleable="false">
+                    <p:column headerText="Street" filterBy="#{customer.fcity}" toggleable="false" filterPlaceholder="Street">
                         <h:outputText value="#{customer.fstreet}"/>
                     </p:column>
-                    <p:column headerText="Bulstat">
+                    <p:column headerText="Bulstat" filterBy="#{customer.fvat}" toggleable="false" filterPlaceholder="bulstat">
                         <h:outputText value="#{customer.fvat}"/>
                     </p:column>-->
-                    <p:column headerText="Company">
+                    <p:column headerText="Customer">
                         <h:outputText value="#{customer.fcperson}"/>
                     </p:column>
 
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-search" update=":form:firmaDetail"
+                                         oncomplete="PF('customerDialog').show()">
+                            <!--
+                                                        <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}" />
+                                                        <p:resetInput target=":dialogs:manage-product-content" />
+                            -->
+                        </p:commandButton>
+                    </p:column>
+
+
                     <f:facet name="paginatorBottomLeft">
-                        <p:commandButton type="button" icon="pi pi-refresh"/>
+                        <p:commandButton icon="pi pi-refresh" action="#{delivery.clearMultiViewState()}" update="@form" />
                     </f:facet>
 
                     <f:facet name="paginatorBottomRight">
                         <p:commandButton type="button" icon="pi pi-cloud-upload"/>
-                    </f:facet>-->
+                    </f:facet>
+
                 </p:dataTable>
-                <p:dialog header="Firma Detail" widgetVar="customerDialog" modal="true" showEffect="fade"  hideEffect="fade" resizable="true">
+
+               <p:dialog header="Firma Detail" widgetVar="customerDialog" modal="false" position="center"
+                         showEffect="fade" closeOnEscape="true"
+                          hideEffect="fade" resizable="true" >
                     <p:outputPanel id="firmaDetail" style="text-align:center;">
-                        <p:panelGrid columns="4" rendered="#{not empty delivery.selectedFirmi}" columnClasses="label,value">
+                        <p:panelGrid columns="4" rendered="#{not empty delivery.selectedFirmi}"
+                                     columnClasses="label,value">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{delivery.selectedFirmi.id}"/>
+                            </p:column>
                             <p:column headerText="Name">
                                 <h:outputText value="#{delivery.selectedFirmi.fname}"/>
                             </p:column>
@@ -101,12 +95,37 @@
                                 <h:outputText value="#{delivery.selectedFirmi.fcity}"/>
                             </p:column>
                             <p:column headerText="MOL">
-                                 <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>
+                                <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>
                             </p:column>
                         </p:panelGrid>
                     </p:outputPanel>
                 </p:dialog>
+
             </div>
         </h:form>
+
+      <!--  <h:form id="dialogs">
+            <p:dialog header="Firma Detail" widgetVar="customerDialog" modal="true" showEffect="fade"
+                      hideEffect="fade" resizable="true">
+                <p:outputPanel id="view-firmaDetail" style="text-align:center;">
+                    <p:panelGrid columns="4" rendered="#{not empty delivery.selectedFirmi}"
+                                 columnClasses="label,value">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{delivery.selectedFirmi.id}"/>
+                        </p:column>
+                        <p:column headerText="Name">
+                            <h:outputText value="#{delivery.selectedFirmi.fname}"/>
+                        </p:column>
+                        <p:column headerText="City">
+                            <h:outputText value="#{delivery.selectedFirmi.fcity}"/>
+                        </p:column>
+                        <p:column headerText="MOL">
+                            <h:outputText value="#{delivery.selectedFirmi.fcperson}"/>
+                        </p:column>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>-->
+
     </ui:define>
 </ui:composition>
