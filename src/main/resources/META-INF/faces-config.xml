@@ -25,13 +25,16 @@
         </system-event-listener>
         <locale-config>
             <default-locale>en</default-locale>
+            <supported-locale>bg</supported-locale>
         </locale-config>
         <resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>
         <resource-handler>org.omnifaces.resourcehandler.CDNResourceHandler</resource-handler>
         <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>
         <resource-bundle>
-            <base-name>build</base-name>
-            <var>build</var>
+           <!-- <base-name>build</base-name>
+            <var>build</var> -->
+             <base-name>msg</base-name>
+            <var>msg</var>
         </resource-bundle>
     </application>
 

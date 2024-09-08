@@ -44,83 +44,12 @@ public class Delivery  implements Serializable  {
 
     @PostConstruct
         public void init()  {
-
             Log.info("Initialize LazyDataModel, sort and filter");
             //entityManager = Firmi.getEntityManager();
             model =  new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
 
             //sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
-/*
-            model = new LazyDataModel() {
-                @Override
-                public int count(Map filterBy) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
-                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, Sort.empty());
-                    return toIntExact(page.count());
-                }
-
-                //@Override
-                public List<Firmi> load(int first, int pageSize, Map sortBy, Map filterBy) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, SortMeta> sortMetaMap = (Map<String, SortMeta>)sortBy;
-                    Sort sort = Sort.empty();
-
-                    for (String sKey : sortMetaMap.keySet()) {
-                       SortMeta sMeta = (SortMeta)sortBy.get(sKey);
-                       if(sMeta.getOrder().name().equalsIgnoreCase("DESCENDING")) {
-                           sort.and(sKey, Sort.Direction.Descending);
-                       } else
-                           sort.and(sKey, Sort.Direction.Ascending);
-                    }
-                    //PanacheQuery<PanacheEntityBase> page = Firmi.findAll(sort).page(Page.of(first/pageSize,pageSize));
-                    @SuppressWarnings("unchecked")
-                    Map<String, FilterMeta> filter = (Map<String, FilterMeta>)filterBy;
-
-                    PanacheQuery<PanacheEntityBase> page = getSortAndFilter(filter, sort);
-                    return page.page(Page.of(first / pageSize, pageSize)).list();
-                }
-                List<Firmi> datasource ;
-
-                @Override
-                public Firmi getRowData(String rowKey) {
-                    return Firmi.findById(Long.valueOf(rowKey));
-                }
-
-                @Override
-                public String getRowKey(Object object) {
-                    if (object instanceof Firmi)
-                        return Long.toString(((Firmi) object).getId());
-                    return super.getRowKey(object);
-                }
-            };
-*/
-            //firmiList = Firmi.listAll();
         }
-
-    private static PanacheQuery<PanacheEntityBase> getSortAndFilter(Map<String, FilterMeta> filter, Sort sort ) {
-        String query ="";
-        Map<String, Object> params = new HashMap<>();
-        for (String sKey : filter.keySet()) {
-            FilterMeta fMeta = filter.get(sKey);
-            if( fMeta.getFilterValue().toString().length() > 3) {
-                query += query.length() < 1 ? "" : " and ";
-
-                if(sKey.equalsIgnoreCase("id")) {
-                    query += sKey + " = :" + sKey;
-                }  else query += "upper(" + sKey + ") like '%'||:" + sKey + "||'%'";
-
-                params.put(sKey, fMeta.getFilterValue().toString().toUpperCase() );
-            }
-        }
-        PanacheQuery<PanacheEntityBase> page  = Firmi.find(query, sort, params);
-        return page;
-    }
-
-   /* public void setModel(LazyDataModel model) {
-        this.model = model;
-    }*/
-
     public void onRowSelect(SelectEvent<Firmi> event) {
         FacesMessage msg = new FacesMessage("Customer Selected", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);

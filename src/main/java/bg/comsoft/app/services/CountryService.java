@@ -64,8 +64,8 @@ public class CountryService {
 
         locales = new ArrayList<>();
 
-        //locales.add(CountryService.toCountry(Locale.US));
-        locales.add(CountryService.toCountry(Locale.UK));
+        locales.add(CountryService.toCountry(Locale.US));
+        //locales.add(CountryService.toCountry(Locale.UK));
         locales.add(CountryService.toCountry(new Locale("ru", "RU")));
     }
 
