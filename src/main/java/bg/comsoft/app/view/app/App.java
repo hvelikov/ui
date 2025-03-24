@@ -65,7 +65,7 @@ public class App implements Serializable {
 		return locale;
 	}
 
-	public void setLocale(Country locale) {
+	    public void setLocale(Country locale) {
 		this.locale = locale;
 	}
 

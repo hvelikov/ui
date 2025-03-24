@@ -32,8 +32,13 @@ import static java.lang.Math.toIntExact;
 @ApplicationScoped
 public class Delivery  implements Serializable  {
 
-    @Getter  JpaLazyDataModel    model;
+    @Getter  JPALazyDataModel    model;
+
+    //@Inject
+    @Getter JPALazyDataModel<Firmi> lazyModel;
+
     @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
+
     //@Getter List<Firmi> datasource = Firmi.listAll();
     @Getter @Setter Firmi selectedFirmi;
 
@@ -43,13 +48,19 @@ public class Delivery  implements Serializable  {
     // https://github.com/apache/myfaces/blob/2.3-next/extensions/quarkus/showcase/src/main/java/org/apache/myfaces/core/extensions/quarkus/showcase/view/LazyCarDataModel.java
 
     @PostConstruct
-        public void init()  {
-            Log.info("Initialize LazyDataModel, sort and filter");
-            //entityManager = Firmi.getEntityManager();
-            model =  new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
+    public void init() {
+        Log.info("Initialize LazyDataModel, sort and filter");
+        model = JPALazyDataModel.<Firmi>builder()
+                .entityClass(Firmi.class)
+                .entityManager(() -> entityManager)
+                .build();
 
-            //sortMetaInitial.add(SortMeta.builder().field("id").order(SortOrder.DESCENDING).build());
-        }
+        sortMetaInitial.add(SortMeta.builder()
+                .field("id")
+                .order(SortOrder.DESCENDING)
+                .build());
+    }
+
     public void onRowSelect(SelectEvent<Firmi> event) {
         FacesMessage msg = new FacesMessage("Customer Selected", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);

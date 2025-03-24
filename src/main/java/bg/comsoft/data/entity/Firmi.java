@@ -97,9 +97,4 @@ public class Firmi extends PanacheEntityBase {
     @Column(name = "ISOAPP")
      Long isoapp;
 
-
-    //@JsonIgnore @JsonIgnoreProperties(value = "nalichnostis")
-    @OneToMany(mappedBy = "firmaFid")
-    List<Nalichnosti> nalichnostis = new ArrayList<>();
-
 }

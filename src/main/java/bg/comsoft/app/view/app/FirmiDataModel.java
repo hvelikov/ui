@@ -11,31 +11,42 @@ import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.JpaLazyDataModel;
+import org.primefaces.model.JPALazyDataModel;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
-import javax.swing.text.html.parser.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import static java.lang.Math.toIntExact;
-@Named("dtModel")
+
+@Named("dbModel")
 @SessionScoped
 /**
  * Data Model.
  */
 public class FirmiDataModel implements Serializable {
-//https://github.com/primefaces/primefaces/issues/8507
 
+    @Getter  JPALazyDataModel    model;
+
+    @Getter List<SortMeta> sortMetaInitial = new ArrayList<>();
+
+    @Getter @Setter Firmi selectedFirmi;
 
     @Inject
     EntityManager entityManager;
 
-    @Getter @Setter JpaLazyDataModel dataModel;
 
-    @Getter @Setter Firmi selectedFirmi;
     @PostConstruct
     public void init() {
-        dataModel = new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
+        model = JPALazyDataModel.<Firmi>builder()
+                .entityClass(Firmi.class)
+                .entityManager(() -> entityManager)
+                .build();
+
+        sortMetaInitial.add(SortMeta.builder()
+                .field("id")
+                .order(SortOrder.DESCENDING)
+                .build());
 
     }
 
