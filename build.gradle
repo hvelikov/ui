@@ -1,8 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
-    id "io.freefair.lombok" version "8.3"
-}
+    }
 
 repositories {
     mavenCentral()
@@ -31,6 +30,9 @@ dependencies {
     implementation 'io.quarkus:quarkus-cache'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
 }
 
 group 'bg.comsoft'
@@ -45,15 +47,16 @@ test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
 compileJava {
-    options.encoding = 'windows-1251'
+    options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'
+    options.compilerArgs += ["-Xlint:deprecation"]
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << '-Xlint:unchecked'
     options.deprecation = true
-}
-
-compileTestJava {
-    options.encoding = 'windows-1251'
 }

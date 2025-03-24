@@ -5,12 +5,15 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.JpaLazyDataModel;
 
+import javax.swing.text.html.parser.Entity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +26,16 @@ import static java.lang.Math.toIntExact;
 public class FirmiDataModel implements Serializable {
 //https://github.com/primefaces/primefaces/issues/8507
 
+
+    @Inject
+    EntityManager entityManager;
+
     @Getter @Setter JpaLazyDataModel dataModel;
 
     @Getter @Setter Firmi selectedFirmi;
     @PostConstruct
     public void init() {
-     //   dataModel = new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
+        dataModel = new JpaLazyDataModel<>(Firmi.class, () -> entityManager, "id");
 
     }
 

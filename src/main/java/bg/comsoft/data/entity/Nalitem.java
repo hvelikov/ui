@@ -78,12 +78,12 @@ public class Nalitem extends PanacheEntityBase {
     @Column(name = "PAYDATE")
      LocalDate paydate;
 
-    @NotNull
+  /*  @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "PROD_ID", nullable = false)
     Produkti prod;
 
     @OneToMany(mappedBy = "nalitemNid")
-    List<SerNum> serNums = new ArrayList<SerNum>();
+    List<SerNum> serNums = new ArrayList<SerNum>();*/
 }

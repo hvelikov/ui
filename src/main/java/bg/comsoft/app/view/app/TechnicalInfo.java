@@ -39,7 +39,6 @@ import org.omnifaces.util.Faces;
 @ApplicationScoped
 @Named
 @Data
-@JBossLog
 public class TechnicalInfo {
 
     private String quarkus;
